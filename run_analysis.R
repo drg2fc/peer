@@ -3,14 +3,18 @@ library(reshape2)
 
 # Load Data Sets
 
-x_train <- read.fwf(file="UCI HAR Dataset/train/X_train.txt",widths=v,buffersize=1)
+message("Load Data Sets")
+
+x_train <- read.fwf(file="UCI HAR Dataset/train/X_train.txt",widths=rep(16,561),buffersize=1)
 y_train <- read.fwf(file="UCI HAR Dataset/train/y_train.txt",widths=1)
-x_test <- read.fwf(file="UCI HAR Dataset/test/X_test.txt",widths=v,buffersize=1)
+x_test <- read.fwf(file="UCI HAR Dataset/test/X_test.txt",widths=rep(16,561),buffersize=1)
 y_test <- read.fwf(file="UCI HAR Dataset/test/y_test.txt",widths=1)
 subject_train <- read.fwf(file="UCI HAR Dataset/train/subject_train.txt",widths=2)
 subject_test <- read.fwf(file="UCI HAR Dataset/test/subject_test.txt",widths=2)
 
 # Merge Training and Test Sets
+
+message("Merge Data Sets")
 
 x <- rbind(x_train,x_test)
 y <- rbind(y_train,y_test)
@@ -28,6 +32,8 @@ names(y) <- "activity_id"
 
 # Extract Mean and Standard Deviation
 
+message("Extract Mean and Standard Deviation")
+
 x.mean <- apply(x,FUN=mean,MARGIN=2)
 x.sd <- apply(x,FUN=sd,MARGIN=2)
 
@@ -38,5 +44,9 @@ ds <- merge(x=subject_y_x,y=activity_labels,by.x="activity_id",by.y="id",all=FAL
 
 # Tidy Data Sets
 
+message("Build Tidi Data Sets")
+
 ds.melt <- melt(ds,id=c("subject","activity"),measure.vars=features[,2])
 ds.tidy <- dcast(ds.melt,subject + activity ~ variable)
+
+ds.tidy
