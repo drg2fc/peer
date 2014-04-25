@@ -24,7 +24,7 @@ names(subject) <- "subject"
 
 features <- read.csv(file="UCI HAR Dataset/features.txt",sep=" ",header=FALSE)
 names(features) <- c("id","feature")
-activiy_labels <- read.csv(file="UCI HAR Dataset/activity_labels.txt",sep=" ",header=FALSE)
+activity_labels <- read.csv(file="UCI HAR Dataset/activity_labels.txt",sep=" ",header=FALSE)
 names(activity_labels) <- c("id","activity")
 
 names(x) <- features[,2]
@@ -44,9 +44,9 @@ ds <- merge(x=subject_y_x,y=activity_labels,by.x="activity_id",by.y="id",all=FAL
 
 # Tidy Data Sets
 
-message("Build Tidi Data Sets")
+message("Build Tidy Data Sets")
 
 ds.melt <- melt(ds,id=c("subject","activity"),measure.vars=features[,2])
-ds.tidy <- dcast(ds.melt,subject + activity ~ variable)
+ds.tidy <- dcast(ds.melt,subject + activity ~ variable,fun.aggregate=mean)
 
 ds.tidy
