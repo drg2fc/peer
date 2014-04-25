@@ -40,7 +40,7 @@ x.sd <- apply(x,FUN=sd,MARGIN=2)
 # Merge Data Set
 
 subject_y_x <- cbind(subject,y,x)
-ds <- merge(x=subject_y_x,y=activity_labels,by.x="activity_id",by.y="id",all=FALSE)
+ds <- merge(y=subject_y_x,x=activity_labels,by.y="activity_id",by.x="id",all=FALSE)
 
 # Tidy Data Sets
 
@@ -48,5 +48,4 @@ message("Build Tidy Data Sets")
 
 ds.melt <- melt(ds,id=c("subject","activity"),measure.vars=features[,2])
 ds.tidy <- dcast(ds.melt,subject + activity ~ variable,fun.aggregate=mean)
-
-ds.tidy
+write.csv(ds.tidy,file="tidy_dataset.csv")
