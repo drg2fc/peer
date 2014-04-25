@@ -48,4 +48,5 @@ message("Build Tidy Data Sets")
 
 ds.melt <- melt(ds,id=c("subject","activity"),measure.vars=features[,2])
 ds.tidy <- dcast(ds.melt,subject + activity ~ variable,fun.aggregate=mean)
-write.csv(ds.tidy,file="tidy_dataset.csv")
+write.csv(ds.tidy,file="tidy_dataset.txt")
+
